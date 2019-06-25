@@ -9,7 +9,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import java.nio.ByteBuffer;
 
 /**
- * @auth zhangfanghui
+ * @auth zhangfanghuif
  * @since 2019-06-20
  */
 public class TimeServerHandler extends ChannelInboundHandlerAdapter {
@@ -27,7 +27,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("【server】收到消息主体："+body);
 
         //回写
-        String backContent = "你好，同意访问\n";
+        String backContent = "你好，已经收到["+ ctx.channel().remoteAddress()+"]的请求。线程id："+Thread.currentThread().getId()+"正在处理\n";
         byte[] req1 = backContent.getBytes("UTF-8");
         ByteBuf  buffer= Unpooled.buffer(req1.length);
         buffer.writeBytes(req1);

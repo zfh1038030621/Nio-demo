@@ -15,15 +15,17 @@ public class Test {
 
 
         Thread.sleep(20000L);
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    new TimeClient().connect(8000,"127.0.0.1");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        for (int i = 0; i < 30; i++) {
+            new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        new TimeClient().connect(8000,"127.0.0.1");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }.start();
+            }.start();
+        }
     }
 }
