@@ -58,8 +58,12 @@ public class TimeClient {
             //socketChannel.pipeline().addLast(new ObjectEncoder());
 //            socketChannel.pipeline().addLast(new ObjectDecoder(Integer.MAX_VALUE,
 //                    ClassResolvers.weakCachingConcurrentResolver(null))); // 最大长度
-            socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
-            socketChannel.pipeline().addLast(new TimeClientHandler());
+          //  socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
+            //增加objectEncoder,objectdecoder
+            socketChannel.pipeline().addLast(new ObjectEncoder());
+            socketChannel.pipeline().addLast(new ObjectDecoder(1024*1024,ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
+           // socketChannel.pipeline().addLast(new TimeClientHandler());
+            socketChannel.pipeline().addLast(new ObjectSerialClientHandler());
         }
     }
 }

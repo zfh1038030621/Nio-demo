@@ -54,10 +54,14 @@ public class TimeServer {
         protected void initChannel(SocketChannel socketChannel) throws Exception {
             //LineBasedFrameDecoder编解码器以换行符\n或者\r\n作为依据，遇到如下符合就认为完整的消息，如果一直没有遇到换行符就长度到我们设置到长度之后自动抛出异常，同时忽略之前读到到流
             //LineBasedFrameDecoder用来解决tcp粘包，拆包问题
-            socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
+           // socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
             // 将流转为字符串
             //   socketChannel.pipeline().addLast(new StringDecoder());
-            socketChannel.pipeline().addLast(new TimeServerHandler());
+            //增加objectEncoder,objectdecoder
+            socketChannel.pipeline().addLast(new ObjectEncoder());
+            socketChannel.pipeline().addLast(new ObjectDecoder(1024*1024,ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
+            //socketChannel.pipeline().addLast(new TimeServerHandler());
+            socketChannel.pipeline().addLast(new ObjectSerialServerHandler());
         }
     }
 }
